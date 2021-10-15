@@ -1,0 +1,503 @@
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Running-FCM-simulation">Running FCM simulation<a class="anchor-link" href="#Running-FCM-simulation">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span> 
+<span class="kn">from</span> <span class="nn">fcmpy.simulator.transfer</span> <span class="kn">import</span> <span class="n">Sigmoid</span><span class="p">,</span> <span class="n">Bivalent</span><span class="p">,</span> <span class="n">Trivalent</span><span class="p">,</span> <span class="n">HyperbolicTangent</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">fcmpy</span> <span class="kn">import</span> <span class="n">ExpertFcm</span><span class="p">,</span> <span class="n">FcmSimulator</span><span class="p">,</span> <span class="n">FcmIntervention</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Run-simulations-on-top-of-a-defined-FCM-structure">Run simulations on top of a defined FCM structure<a class="anchor-link" href="#Run-simulations-on-top-of-a-defined-FCM-structure">&#182;</a></h3><p>In this example we will replicate the case presented in the fcm inference package in R by Dikopoulou &amp; Papageorgiou</p>
+<ul>
+<li>Instantiate and FcmSimulator class</li>
+<li>Define the FCM structure</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># define a simulator </span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">FcmSimulator</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># use the data belwo for the simulation</span>
+
+<span class="n">C1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+<span class="n">C2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">C3</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">C4</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">C5</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+<span class="n">C6</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">C7</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+<span class="n">C8</span> <span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weight_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="p">,</span> <span class="n">C3</span><span class="p">,</span> <span class="n">C4</span><span class="p">,</span> <span class="n">C5</span><span class="p">,</span> <span class="n">C6</span><span class="p">,</span> <span class="n">C7</span><span class="p">,</span> <span class="n">C8</span><span class="p">],</span> 
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span><span class="s1">&#39;C2&#39;</span><span class="p">,</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span><span class="s1">&#39;C5&#39;</span><span class="p">,</span><span class="s1">&#39;C6&#39;</span><span class="p">,</span><span class="s1">&#39;C7&#39;</span><span class="p">,</span><span class="s1">&#39;C8&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># define initial state of the vector as [1,1,0,0,0,0,0,0] for C1 to C8 as dictionary </span>
+<span class="n">init_state</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C5&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s1">&#39;C6&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C7&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C8&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simulate">Simulate<a class="anchor-link" href="#Simulate">&#182;</a></h1><p>Here we run a simulation on top of the defined FCM structure using the sigmoid transfer function and the modified Kosko's inference method. The simulation will run $50$ iterations and will stop if the absolute difference between the concept values between the simulation steps is $\leq 0.001$. The steepness parameter for the sigmoid function is set to $1$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_mK</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="n">init_state</span><span class="p">,</span> <span class="n">weight_matrix</span><span class="o">=</span><span class="n">weight_matrix</span><span class="p">,</span> <span class="n">transfer</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;mKosko&#39;</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The values converged in the 7 state (e &lt;= 0.001)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Inspect-the-output">Inspect the output<a class="anchor-link" href="#Inspect-the-output">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_mK</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C1</th>
+      <th>C2</th>
+      <th>C3</th>
+      <th>C4</th>
+      <th>C5</th>
+      <th>C6</th>
+      <th>C7</th>
+      <th>C8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.750260</td>
+      <td>0.731059</td>
+      <td>0.645656</td>
+      <td>0.710950</td>
+      <td>0.500000</td>
+      <td>0.500000</td>
+      <td>0.549834</td>
+      <td>0.785835</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.738141</td>
+      <td>0.765490</td>
+      <td>0.749475</td>
+      <td>0.799982</td>
+      <td>0.746700</td>
+      <td>0.769999</td>
+      <td>0.838315</td>
+      <td>0.921361</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.730236</td>
+      <td>0.784168</td>
+      <td>0.767163</td>
+      <td>0.812191</td>
+      <td>0.805531</td>
+      <td>0.829309</td>
+      <td>0.898379</td>
+      <td>0.950172</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.727059</td>
+      <td>0.789378</td>
+      <td>0.769467</td>
+      <td>0.812967</td>
+      <td>0.816974</td>
+      <td>0.838759</td>
+      <td>0.908173</td>
+      <td>0.954927</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.726125</td>
+      <td>0.790510</td>
+      <td>0.769538</td>
+      <td>0.812650</td>
+      <td>0.818986</td>
+      <td>0.839860</td>
+      <td>0.909707</td>
+      <td>0.955666</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.725885</td>
+      <td>0.790706</td>
+      <td>0.769451</td>
+      <td>0.812473</td>
+      <td>0.819294</td>
+      <td>0.839901</td>
+      <td>0.909940</td>
+      <td>0.955774</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="make-an-intervention">make an intervention<a class="anchor-link" href="#make-an-intervention">&#182;</a></h1><p>Here we will use the same initial state and the weight matrix defined in the previous example.
+Let's first create an instance of the FcmIntervention class. To do so we need to pass an fcmpy Simulator object.</p>
+<p>Here we just run a simulation on top of the a defined FCM (where no intervention exists) with a given vector of initial conditions. The baseline of comparison is the derived equilibrium states of the concepts in the FCM.</p>
+<p>Now we can specify the interventions that we want to test.
+Let's consider three such hypothetical interventions we wish to test in our FCM. The first intervention targets concepts (nodes) C1 and C2. It negatively impacts concept C1 (-.3) while positively impacting the concept C2 (.5). We consider a case where the intervention has maximum effectiveness (1). The other two interventions follow the same logic but impact other nodes (see below).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize the intervention object </span>
+<span class="n">inter</span> <span class="o">=</span> <span class="n">FcmIntervention</span><span class="p">(</span><span class="n">FcmSimulator</span><span class="p">)</span>
+<span class="c1"># intialize the intervention </span>
+<span class="n">inter</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="n">init_state</span><span class="p">,</span> <span class="n">weight_matrix</span><span class="o">=</span><span class="n">weight_matrix</span><span class="p">,</span> 
+                        <span class="n">transfer</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">inference</span><span class="o">=</span><span class="s1">&#39;mKosko&#39;</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># run the simulation using the intervention</span>
+<span class="n">inter</span><span class="o">.</span><span class="n">add_intervention</span><span class="p">(</span><span class="s1">&#39;intervention_1&#39;</span><span class="p">,</span> <span class="n">impact</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C1&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">.3</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span> <span class="p">:</span> <span class="mf">.5</span><span class="p">},</span> <span class="n">effectiveness</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The values converged in the 7 state (e &lt;= 0.001)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inter</span><span class="o">.</span><span class="n">test_intervention</span><span class="p">(</span><span class="s1">&#39;intervention_1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The values converged in the 6 state (e &lt;= 0.001)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inter</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;intervention_1&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C1</th>
+      <th>C2</th>
+      <th>C3</th>
+      <th>C4</th>
+      <th>C5</th>
+      <th>C6</th>
+      <th>C7</th>
+      <th>C8</th>
+      <th>intervention</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.725885</td>
+      <td>0.790706</td>
+      <td>0.769451</td>
+      <td>0.812473</td>
+      <td>0.819294</td>
+      <td>0.839901</td>
+      <td>0.909940</td>
+      <td>0.955774</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.662298</td>
+      <td>0.861681</td>
+      <td>0.769410</td>
+      <td>0.812414</td>
+      <td>0.819328</td>
+      <td>0.839874</td>
+      <td>0.909973</td>
+      <td>0.955787</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.649547</td>
+      <td>0.869922</td>
+      <td>0.762564</td>
+      <td>0.803526</td>
+      <td>0.819327</td>
+      <td>0.839863</td>
+      <td>0.911132</td>
+      <td>0.955134</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.646000</td>
+      <td>0.870312</td>
+      <td>0.759929</td>
+      <td>0.800292</td>
+      <td>0.818413</td>
+      <td>0.838899</td>
+      <td>0.911143</td>
+      <td>0.954860</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.644962</td>
+      <td>0.870147</td>
+      <td>0.759059</td>
+      <td>0.799263</td>
+      <td>0.817925</td>
+      <td>0.838484</td>
+      <td>0.911052</td>
+      <td>0.954712</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.644651</td>
+      <td>0.870060</td>
+      <td>0.758786</td>
+      <td>0.798947</td>
+      <td>0.817735</td>
+      <td>0.838350</td>
+      <td>0.911004</td>
+      <td>0.954652</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+

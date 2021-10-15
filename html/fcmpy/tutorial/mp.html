@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"/>
+  <link href="css/notebook.css" rel="stylesheet"/>
+  <link href="css/pygments/notebook/colorful.css" rel="stylesheet"/>
+  <link href="css/main.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   
+   <div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+     <div class="text_cell_render border-box-sizing rendered_html">
+      <h1 id="MP-Algorithm-(gonzalo)">
+       MP Algorithm 
+       <a class="anchor-link" href="#MP-Algorithm-(gonzalo)">
+         
+       </a>
+      </h1>
+      <h2 id="Task:-create-FCM-based-on-a-bunch-of-data-(for-classification-purposes)">
+       Task: create FCM based on a bunch of data (for classification purposes)
+       <a class="anchor-link" href="#Task:-create-FCM-based-on-a-bunch-of-data-(for-classification-purposes)">
+         
+       </a>
+      </h2>
+      <p>
+        It is attractive for the researchers to choose FCMs for classification tasks,
+        over other populartools such as neural networks. FCMs are easily explainable, which is
+        a great advantage overblack box modelsand, in many cases, equally accurate.    
+        The output of the algorithm is a fully connected FCM containing featuresnodes and class nodes) 
+        but the former produces numerical outputs while the latter producesnominal outputs (decision classes).  
+        In LTCN-MP algorithm (i) input variables are located in the inner layer and output variables in the outer layer, 
+        (ii) weights connecting the inputs are computed in an unsupervised way by solving a leastsquared problem, and 
+        (iii) weights connecting inputs with outputs are computed using the Moore-Penrose pseudo-invers  
+       For more information about the algorithm, please check out
+      </p>
+      <p>
+       <strong>
+        Deterministic learning of hybrid Fuzzy Cognitive Maps and network
+reduction approaches
+       </strong>
+       Gonzalo Napoles, Agnieszka Jastrzebska Carlos Mosquera Koen Vanhoof
+Wladyslaw Homenda
+      </p>
+     </div>
+    </div>
+   </div>
+   <div class="cell border-box-sizing code_cell rendered">
+    <div class="input">
+     <div class="prompt input_prompt">
+      In [1]:
+     </div>
+     <div class="inner_cell">
+      <div class="input_area">
+       <div class="highlight hl-ipython3">
+        <pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">sources</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'fcmpy/data'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">'arff'</span><span class="p">:</span>
+        <span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'fcmpy/data/'</span><span class="o">+</span><span class="n">filename</span><span class="p">)</span>
+        
+<span class="nb">print</span><span class="p">(</span><span class="n">sources</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="output_wrapper">
+     <div class="output">
+      <div class="output_area">
+       <div class="prompt">
+       </div>
+       <div class="output_subarea output_stream output_stdout output_text">
+        <pre>['fcmpy/data/iris.arff']
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="cell border-box-sizing code_cell rendered">
+    <div class="input">
+     <div class="prompt input_prompt">
+      In [2]:
+     </div>
+     <div class="inner_cell">
+      <div class="input_area">
+       <div class="highlight hl-ipython3">
+        <pre><span></span><span class="kn">import</span> <span class="nn">fcmpy.ml.classification.FCM_MP</span> <span class="k">as</span> <span class="nn">mp</span>
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="cell border-box-sizing code_cell rendered">
+    <div class="input">
+     <div class="prompt input_prompt">
+      In [3]:
+     </div>
+     <div class="inner_cell">
+      <div class="input_area">
+       <div class="highlight hl-ipython3">
+        <pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'L'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'M'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+          <span class="s1">'T'</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">'b1'</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">'folds'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
+          <span class="s1">'output'</span><span class="p">:</span><span class="s1">'./output.csv'</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">:[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+          <span class="s1">'rule'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'sources'</span><span class="p">:</span><span class="n">sources</span><span class="p">,</span> <span class="s1">'verbose'</span><span class="p">:</span><span class="kc">False</span><span class="p">}</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="output_wrapper">
+     <div class="output">
+      <div class="output_area">
+       <div class="prompt">
+       </div>
+       <div class="output_subarea output_stream output_stdout output_text">
+        <pre>Processing fcmpy/data/iris.arff
+{'b1': '1.00', 'L': 0, 'slope': '1.00', 'h': '1.00', 'train_error': 0.1613202515361981, 'test_error': 0.16131845087352958, 'training_time': 0.0024998, 'weights': array([[ 0.87938436, -0.05353936,  1.        ],
+       [-0.08401687,  0.87938436, -0.57062015],
+       [ 0.58553838, -0.21291639,  0.87938436]]), 'importance': array([[ 1.        ],
+       [-0.38801153],
+       [-0.70008443]])}
+MSE Average of the model across the 1 datasets: 0.1613
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+     <div class="text_cell_render border-box-sizing rendered_html">
+      <h1 id="Resutls">
+       Resutls
+       <a class="anchor-link" href="#Resutls">
+         
+       </a>
+      </h1>
+      <p>
+       Results show the importance of the feautres for the classification task. They can be compare to the ones obtained by the Napoles et. al. Mutliple datasets described in the article, were used to test the functionality of the algorithm.
+      </p>
+     </div>
+    </div>
+   </div>
+   <div class="cell border-box-sizing code_cell rendered">
+    <div class="input">
+     <div class="prompt input_prompt">
+      In [4]:
+     </div>
+     <div class="inner_cell">
+      <div class="input_area">
+       <div class="highlight hl-ipython3">
+        <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">'font.size'</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span><span class="s1">'font.weight'</span><span class="p">:</span><span class="s1">'normal'</span><span class="p">})</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">sharex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">get_default_bbox_extra_artists</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">'filename'</span><span class="p">])</span>
+<span class="c1">#     ax.yticks(np.round(np.arange(-1,1.2,0.2).astype(float),2).tolist())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'weights'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())),</span><span class="n">height</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">'weights'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Feature'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Importance'</span><span class="p">)</span>
+<span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
+
+<span class="c1"># fig, ax = plt.subplots(figsize=(10,8))</span>
+<span class="c1"># ax.bar(range(len(out[3]['importance'].flatten())),height=out[3]['importance'].flatten())</span>
+</pre>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="output_wrapper">
+     <div class="output">
+      <div class="output_area">
+       <div class="prompt">
+       </div>
+       <div class="output_png output_subarea">
+       </div>
+      </div>
+     </div>
+    </div>
+    <img src="../images/mp.PNG" alt="Flow" style="width:1000px;">
+
+   <!-- mathjax -->
+   <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+   </script>
+   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+   </script>
+   <script>
+    MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+   </script>
+  </div>
+ </body>
+</html>

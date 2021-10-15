@@ -1,0 +1,142 @@
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="ML-for-optimization-of-fcm-edges">ML for optimization of fcm edges<a class="anchor-link" href="#ML-for-optimization-of-fcm-edges">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Hebbian-Learning">Hebbian Learning<a class="anchor-link" href="#Hebbian-Learning">&#182;</a></h1><h2 id="Task:-optimize-already-existing-FCM">Task: optimize already existing FCM<a class="anchor-link" href="#Task:-optimize-already-existing-FCM">&#182;</a></h2><p>When the NHL algorithm has been applied for
+over 100 times AND both the termination conditions are<br>
+not met THEN experts are asked to reconstruct the FCM<br>
+model. The new weight matrix Winitial<br>
+new of the reconstructed
+FCM is used in Eq. (1) and calculates the Ai again, GO TO
+step 3.</p>
+<p>IF DOCi does not reach an accepted value THEN
+GO TO step 4, determine the parameter Z and implement
+the NHL technique again.<br>
+ELSE the process STOPs and
+the updated weight matrix is appropriate for the case-study
+scenario.</p>
+<h4 id="NHL-flow-chart">NHL flow chart<a class="anchor-link" href="#NHL-flow-chart">&#182;</a></h4><p><img src="figures/nhl_flow.png" alt="&#39;init vals&#39;">yyy</p>
+<p><img src="figures/init.png" alt="&#39;init vals&#39;"></p>
+<p>For more information about the algorithms, please check out 
+<strong>Unsupervised learning techniques for fine-tuning fuzzy cognitive
+map causal links</strong> by
+Elpiniki I. Papageorgioua, Chrysostomos Styliosb, Peter P. Groumposa</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fcmpy.ml.hebbian.runner</span> <span class="kn">import</span> <span class="n">simulator</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">W_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.36</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mf">0.45</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">A0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.707</span><span class="p">,</span><span class="mf">0.607</span><span class="p">,</span><span class="mf">0.72</span><span class="p">,</span><span class="mf">0.3</span><span class="p">])</span>
+
+<span class="c1"># DOCs </span>
+<span class="n">doc</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mf">0.68</span><span class="p">,</span><span class="mf">0.74</span><span class="p">],</span><span class="mi">4</span><span class="p">:[</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.8</span><span class="p">]}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Hebbian-learning">Hebbian learning<a class="anchor-link" href="#Hebbian-learning">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Running-the-simulation-and-looping-over-different-hyperparameters">Running the simulation and looping over different hyperparameters<a class="anchor-link" href="#Running-the-simulation-and-looping-over-different-hyperparameters">&#182;</a></h3><p>lambda (0.9,1.01,0.01)
+dacay coefficient (0.95,1.0,0.01)
+and learning rate (0.001,0.1,0.001)</p>
+<p>Append each results to the list (you will need it later) !</p>
+<div class="highlight"><pre><span></span><span class="n">fcmpy</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">hebbian</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">simulator</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Non-linear-Hebbian-learning">Non-linear Hebbian learning<a class="anchor-link" href="#Non-linear-Hebbian-learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%capture</span>
+<span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">lbd</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.01</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">decay</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">learning_rate</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.001</span><span class="p">):</span> 
+            <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">&#39;nhl&#39;</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span><span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Active-Hebbian-learning">Active Hebbian learning<a class="anchor-link" href="#Active-Hebbian-learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%capture</span>
+<span class="n">recordsahl</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># for lbd in np.arange(0.9,1.01,0.01):</span>
+<span class="n">lbd</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">decay</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span> 
+    <span class="k">for</span> <span class="n">learning_rate</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.001</span><span class="p">):</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">&#39;ahl&#39;</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
+        <span class="c1"># we do this loop for a particular initiated learning rate</span>
+        <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">recordsahl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+ 
+
