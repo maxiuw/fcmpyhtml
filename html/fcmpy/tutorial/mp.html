@@ -28,13 +28,13 @@
       </h2>
       <p>
         It is attractive for the researchers to choose FCMs for classification tasks,
-        over other populartools such as neural networks. FCMs are easily explainable, which is
-        a great advantage overblack box modelsand, in many cases, equally accurate.    
-        The output of the algorithm is a fully connected FCM containing featuresnodes and class nodes) 
-        but the former produces numerical outputs while the latter producesnominal outputs (decision classes).  
+        over other popular tools such as neural networks. FCMs are easily explainable, which is
+        a great advantage over black box models and, in many cases, equally accurate.    
+        The output of the algorithm is a fully connected FCM containing features nodes and class nodes) 
+        but the former produces numerical outputs while the latter produces nominal outputs (decision classes).  
         In LTCN-MP algorithm (i) input variables are located in the inner layer and output variables in the outer layer, 
-        (ii) weights connecting the inputs are computed in an unsupervised way by solving a leastsquared problem, and 
-        (iii) weights connecting inputs with outputs are computed using the Moore-Penrose pseudo-invers  
+        (ii) weights connecting the inputs are computed in an unsupervised way by solving a least squared problem, and 
+        (iii) weights connecting inputs with outputs are computed using the Moore-Penrose pseudo-inverse  
        For more information about the algorithm, please check out
       </p>
       <p>
@@ -57,6 +57,8 @@ Wladyslaw Homenda
       <div class="input_area">
        <div class="highlight hl-ipython3">
         <pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Defining the files we are going to use for creating FCMs. MP algorithm allows us create FCMs for each file located in the directory at the same time</span>    
+
 <span class="n">sources</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'fcmpy/data'</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">filename</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">'arff'</span><span class="p">:</span>
@@ -105,10 +107,12 @@ Wladyslaw Homenda
       <div class="input_area">
        <div class="highlight hl-ipython3">
         <pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'L'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'M'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-          <span class="s1">'T'</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">'b1'</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">'folds'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
+              <span class="c1"># The only necessary parameter is source of the .arff files, other are optional</span>    
+              <span class="s1">'T'</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">'b1'</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">'folds'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
           <span class="s1">'output'</span><span class="p">:</span><span class="s1">'./output.csv'</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">:[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
           <span class="s1">'rule'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'sources'</span><span class="p">:</span><span class="n">sources</span><span class="p">,</span> <span class="s1">'verbose'</span><span class="p">:</span><span class="kc">False</span><span class="p">}</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+          <span class="c1"># Running algorithm and saving results to variable out</span>    
+          <span class="n">out</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 </pre>
        </div>
       </div>
@@ -138,14 +142,15 @@ MSE Average of the model across the 1 datasets: 0.1613
     </div>
     <div class="inner_cell">
      <div class="text_cell_render border-box-sizing rendered_html">
-      <h1 id="Resutls">
-       Resutls
-       <a class="anchor-link" href="#Resutls">
+      <h1 id="Results">
+       Results
+       <a class="anchor-link" href="#Results">
          
        </a>
       </h1>
       <p>
-       Results show the importance of the feautres for the classification task. They can be compare to the ones obtained by the Napoles et. al. Mutliple datasets described in the article, were used to test the functionality of the algorithm.
+       Results show the importance of the features for the classification task. They can be compared to the ones obtained by the Napoles et. al.
+        Multiple datasets described in the article were used to test the functionality of the algorithm.
       </p>
      </div>
     </div>
@@ -159,21 +164,17 @@ MSE Average of the model across the 1 datasets: 0.1613
       <div class="input_area">
        <div class="highlight hl-ipython3">
         <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+       <span class="c1"># Plotting the importance of each feature. Notice, that FCM_MP algorithm drops one of the features (the one which is the least important for the classification.</span>    
+
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">'font.size'</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span><span class="s1">'font.weight'</span><span class="p">:</span><span class="s1">'normal'</span><span class="p">})</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">sharex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">get_default_bbox_extra_artists</span>
-<span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">'filename'</span><span class="p">])</span>
-<span class="c1">#     ax.yticks(np.round(np.arange(-1,1.2,0.2).astype(float),2).tolist())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'weights'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())),</span><span class="n">height</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">'weights'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">0</span><span class="p">][</span><span class="s1">'filename'</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'importance'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())),</span><span class="n">height</span><span class="o">=</span><span class="n">out</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">'importance'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Feature'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Importance'</span><span class="p">)</span>
-<span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
 
-<span class="c1"># fig, ax = plt.subplots(figsize=(10,8))</span>
-<span class="c1"># ax.bar(range(len(out[3]['importance'].flatten())),height=out[3]['importance'].flatten())</span>
 </pre>
        </div>
       </div>

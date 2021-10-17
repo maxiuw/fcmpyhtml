@@ -96,24 +96,33 @@
          </div>
         </div>
        </div>
+      <h3>Optional (but recommended)</h3>
       It would be healpful to create a new environment to assure the packages versions are compliant using environment.yml files. If you do not have anaconda, you can use requirements.txt for pip. Your choice (conda recommended).
       If you have never created environment using these methods find some tips in the link here:
       <a href="https://stackoverflow.com/questions/48787250/set-up-virtualenv-using-a-requirements-txt-generated-by-conda">Link to Stack article</a>      
-      </p> 
-      
-      <div class="cell border-box-sizing code_cell rendered">
-        <div class="input">
-         <div class="inner_cell">
-          <div class="input_area">
-           <div class="highlight hl-ipython3">
-            <pre><span></span><span class="kn"></span> <span class="nn">conda env create -f environment.yml
-            </span>
-    </pre>
+      </p>
+      <ol>
+        <li>
+          Choose one of the raw files by pressing the button (for conda recommended environment.yml)
+        </li>
+        <li>Open notepad and copy paste the content, then save it as environment.yml</li>
+      <li>
+        <div class="cell border-box-sizing code_cell rendered">
+          <div class="input">
+           <div class="inner_cell">
+            <div class="input_area">
+             <div class="highlight hl-ipython3">
+              <pre><span></span><span class="kn"></span> <span class="nn">conda env create -f environment.yml
+              </span>
+      </pre>
+             </div>
+            </div>
            </div>
           </div>
          </div>
-        </div>
-       </div>
+      </li>
+    </ol> 
+
       <a href="requirements.txt" download>
         <!-- <img src="images/pipbutton.png" alt="pip" width="250" height="150"> -->
         <button class="button button1">Pip requirements.txt</button>

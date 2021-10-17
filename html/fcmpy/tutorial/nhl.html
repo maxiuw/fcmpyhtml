@@ -40,13 +40,13 @@
 
       <p>
        The first two methods are Nonlinear Hebbian Learning (NHL) and Active Hebbian Learning(AHL), 
-       proposed by Papageorgiou et al.  Both of them areused to optimize an existing weight matrix in such 
-       a way that the chosen nodes, DesiredOutput Concepts (DOCs), always converge within the desired range. Both algorithms aresimilar to 
-       FCM simulation, with the main difference being that weights’ and concepts’ valuesare updated at each time step, whereas during a 
-       simulation, only the concepts values arechanging. For the NHL algorithm, all nodes (Ai) and weights (Wij- a direct edge from nodeitoj) 
-       values are simultaneously updated at each time step. In AHL, nodes and weights areupdated asynchronously. During each time step, 
-       a new node becomes an ''activated node'' and only that node and edges pointing to it are being updated and all the other ones remainconstant.
-        Along with optimizing existing edges, AHL creates new connections between theconcepts, which may be an undesirable behavior in some cases.
+       proposed by Papageorgiou et al.  Both of them are used to optimize an existing weight matrix in such 
+       a way that the chosen nodes, Desired Output Concepts (DOCs), always converge within the desired range. Both algorithms are similar to 
+       FCM simulation, with the main difference being that weights’ and concepts’ values are updated at each time step, whereas during a 
+       simulation, only the concepts values are changing. For the NHL algorithm, all nodes (Ai) and weights (Wij - a direct edge from node i to j) 
+       values are simultaneously updated at each time step. In AHL, nodes and weights are updated asynchronously. During each time step, 
+       a new node becomes an ''activated node'' and only that node and edges pointing to it are being updated and all the other ones remain constant.
+        Along with optimizing existing edges, AHL creates new connections between the concepts, which may be an undesirable behavior in some cases.
       </p>
 
       <h4 id="NHL-flow-chart">
@@ -67,7 +67,10 @@ map causal links
        </strong>
        by
 Elpiniki I. Papageorgiou, Chrysostomos Stylios, Peter P. Groumpos
-      </p>
+
+</p>
+<a><b>First import all necessar libraries and fix randomness </b></a>
+
      </div>
     </div>
    </div>
@@ -95,10 +98,11 @@ Elpiniki I. Papageorgiou, Chrysostomos Stylios, Peter P. Groumpos
      <div class="inner_cell">
       <div class="input_area">
        <div class="highlight hl-ipython3">
-        <pre><span></span><span class="n">W_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.36</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mf">0.45</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-<span class="n">A0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.707</span><span class="p">,</span><span class="mf">0.607</span><span class="p">,</span><span class="mf">0.72</span><span class="p">,</span><span class="mf">0.3</span><span class="p">])</span>
+        <span class="c1"># define initial values concepts and weight matrix as NumPy arrays</span>
 
-<span class="c1"># DOCs </span>
+        <pre><span class="n">W_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.36</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mf">0.45</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">A0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.707</span><span class="p">,</span><span class="mf">0.607</span><span class="p">,</span><span class="mf">0.72</span><span class="p">,</span><span class="mf">0.3</span><span class="p">])</span>
+<span></span><span class="c1"># Define DOC - concepts which values we want to stay within the desired range</span>
 <span class="n">doc</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mf">0.68</span><span class="p">,</span><span class="mf">0.74</span><span class="p">],</span><span class="mi">4</span><span class="p">:[</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.8</span><span class="p">]}</span>
 </pre>
        </div>
@@ -170,7 +174,8 @@ and learning rate (0.001,0.1,0.001)
 <span class="k">for</span> <span class="n">lbd</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.01</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">decay</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">learning_rate</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.001</span><span class="p">):</span> 
-            <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">'nhl'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span><span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
+        <span class="c1"># Running the NHL algorithm for chosen hyperparameters, appending generated weight matrix if the algorithm converged</span>  
+          <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">'nhl'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span><span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
 </pre>
@@ -207,7 +212,8 @@ and learning rate (0.001,0.1,0.001)
 <span class="n">lbd</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">for</span> <span class="n">decay</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.01</span><span class="p">):</span> 
     <span class="k">for</span> <span class="n">learning_rate</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.001</span><span class="p">):</span>
-        <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">'ahl'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
+    <span class="c1"># Running the AHL algorithm for chosen hyperparameters, appending generated weight matrix if the algorithm converged</span>    
+      <span class="n">run</span> <span class="o">=</span> <span class="n">simulator</span><span class="p">(</span><span class="s1">'ahl'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">A0</span><span class="o">=</span><span class="n">A0</span><span class="p">,</span> <span class="n">W_init</span><span class="o">=</span> <span class="n">W_init</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">lbd</span> <span class="o">=</span> <span class="n">lbd</span><span class="p">)</span>
         <span class="c1"># we do this loop for a particular initiated learning rate</span>
         <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">recordsahl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
