@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">fcmpy package istallation</h1>
+<h1 class="title">fcmpy package installation</h1>
 </header>
 <html>
   <head>
@@ -83,7 +83,7 @@
          </div>
         </div>
        </div>
-      Soon it will be availabe to install via pip using:
+      Soon it will be available to install via pip using:
       <div class="cell border-box-sizing code_cell rendered">
         <div class="input">
          <div class="inner_cell">
@@ -96,9 +96,17 @@
          </div>
         </div>
        </div>
-      <h3>Optional (but recommended)</h3>
-      It would be healpful to create a new environment to assure the packages versions are compliant using environment.yml files. If you do not have anaconda, you can use requirements.txt for pip. Your choice (conda recommended).
-      If you have never created environment using these methods find some tips in the link here:
+      <h3>Necessary setup</h3>
+      This library requires your Python to be in version >= 3.7.
+To know the current version of Python, open your console (e.g., Anaconda Prompt) and type "python --version". <br> If your version is > 3.6, then you can upgrade it via one of the following methods:
+<br>
+- (preferred method) download a newer installation using a distribution such as Anaconda (https://www.anaconda.com/products/individual).<br>
+- if you use Anaconda, then in your console type "conda update python". This may takes several minutes and you may not see a response in your console immediately.
+ You may be prompted to confirm whether you wish to upgrade, by typing y and enter. Note that if you created shortcuts to run Jupyter notebooks,
+  such shortcuts may no longer work after upgrading Python in the console.<br>
+
+  <h3>Recommended setup</h3>
+  Create a new environment (see optional steps at the bottom of this installation guide). If you have never created environment using these methods find some tips in the link here:
       <a href="https://stackoverflow.com/questions/48787250/set-up-virtualenv-using-a-requirements-txt-generated-by-conda">Link to Stack article</a>      
       </p>
       <ol>
